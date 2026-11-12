@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Personal Portfolio</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <header>
+        <nav class="navbar">
+            <a href="#home" class="logo">My<span>Space.</span></a>
+
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects & Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- HOME SECTION -->
+    <section id="home" class="home">
+        <div class="home-content">
+
+            <p class="welcome">WELCOME TO MY PORTFOLIO</p>
+
+            <h1>Hello, I'm <span>Jerome Fajilan</span></h1>
+
+            <h2>Student | Future Web Developer</h2>
+
+            <p>
+                Welcome to my personal portfolio website.
+                Here, you can explore my background, skills,
+                projects, and achievements.
+            </p>
+
+            <a href="#about" class="btn">Explore More</a>
+
+        </div>
+         <!-- PROFILE PICTURE -->
+    <div class="home-image">
+        <img src="{{ url_for('static', filename='images/profile.png') }}"
+             alt="My Profile Picture">
+    </div>
+    </section>
+
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section">
+
+        <div class="section-title">
+            <p>GET TO KNOW MORE</p>
+            <h2>About <span>Me</span></h2>
+        </div>
+
+        <div class="about-container">
+
+            <div class="about-card">
+                <h3>Who Am I?</h3>
+
+                <p>
+                    Hi! I am Jerome Fajilan, a 3rd year BS in Computer Science student
+                    studying at Cavite State University Bacoor City Campus. I am
+                    passionate about technology, programming, and learning
+                    new skills. I love exploring computer-related topics
+                    and developing projects that improve my
+                    knowledge and creativity.
+                </p>
+
+                <p>
+                    My goal is to continue improving my skills
+                    and become a skilled Web Developer in the future.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>My Skills</h3>
+
+                <div class="skill">
+                    <span>HTML</span>
+                    <div class="skill-bar">
+                        <div class="skill-level html"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <span>CSS</span>
+                    <div class="skill-bar">
+                        <div class="skill-level css"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <span>Python</span>
+                    <div class="skill-bar">
+                        <div class="skill-level python"></div>
+                    </div>
+                </div>
+
+                <div class="skill">
+                    <span>Programming</span>
+                    <div class="skill-bar">
+                        <div class="skill-level programming"></div>
+                    </div>
+                </div>
+
+                <p class="skill-note">
+                   The skill level shown here represents my competency in each field.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+<!-- RESUME SECTION -->
+<section id="resume" class="section">
+
+    <div class="section-title">
+        <p>MY PROFESSIONAL PROFILE</p>
+        <h2>My <span>Resume</span></h2>
+    </div>
+
+    <div class="resume-container">
+
+        <!-- RESUME DESCRIPTION -->
+        <div class="resume-card">
+            <p>
+                Explore my educational background, personal
+                information, skills, and achievements through
+                my resume.
+            </p>
+        </div>
+
+        <!-- RESUME IMAGE -->
+        <div class="resume-preview">
+            <img
+                src="{{ url_for('static', filename='images/resume.png') }}"
+                alt="Resume Preview">
+        </div>
+
+        <!-- BUTTONS BELOW IMAGE -->
+        <div class="resume-buttons">
+
+            <button class="btn" onclick="openResume()">
+                View My Resume
+            </button>
+
+            <a href="{{ url_for('static', filename='images/resume.png') }}"
+               download="My_Resume.png"
+               class="btn download-btn">
+                Download Resume
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RESUME POPUP -->
+<div id="resumeModal" class="resume-modal">
+
+    <div class="resume-modal-content">
+
+        <button class="close-resume"
+                onclick="closeResume()"
+                aria-label="Close resume">
+            &times;
+        </button>
+
+        <h2>My <span>Resume</span></h2>
+
+        <img
+            src="{{ url_for('static', filename='images/resume.png') }}"
+            alt="My Resume">
+
+    </div>
+
+</div>
+
+    <script>
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+
+    // OPEN IMAGE GALLERY
+    function openGallery(button) {
+        const gallery = button.closest(".project-gallery");
+
+        currentGalleryImages = Array.from(
+            gallery.querySelectorAll("img")
+        );
+
+        currentGalleryIndex = currentGalleryImages.indexOf(
+            button.querySelector("img")
+        );
+
+        showGalleryImage();
+
+        document.getElementById("galleryModal").style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    // DISPLAY SELECTED IMAGE
+    function showGalleryImage() {
+        const image = currentGalleryImages[currentGalleryIndex];
+
+        document.getElementById("galleryMainImage").src = image.src;
+        document.getElementById("galleryMainImage").alt = image.alt;
+
+        document.getElementById("galleryCounter").textContent =
+            (currentGalleryIndex + 1) + " / " + currentGalleryImages.length;
+    }
+
+    // NEXT AND PREVIOUS IMAGE
+    function changeGalleryImage(direction) {
+        currentGalleryIndex += direction;
+
+        if (currentGalleryIndex >= currentGalleryImages.length) {
+            currentGalleryIndex = 0;
+        }
+
+        if (currentGalleryIndex < 0) {
+            currentGalleryIndex = currentGalleryImages.length - 1;
+        }
+
+        showGalleryImage();
+    }
+
+    // CLOSE GALLERY
+    function closeGallery() {
+        document.getElementById("galleryModal").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    // CLOSE WHEN CLICKING OUTSIDE
+    document.getElementById("galleryModal").addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeGallery();
+        }
+    });
+
+    // KEYBOARD CONTROLS
+    document.addEventListener("keydown", function(event) {
+        const modal = document.getElementById("galleryModal");
+
+        if (modal.style.display === "flex") {
+            if (event.key === "Escape") {
+                closeGallery();
+            }
+
+            if (event.key === "ArrowRight") {
+                changeGalleryImage(1);
+            }
+
+            if (event.key === "ArrowLeft") {
+                changeGalleryImage(-1);
+            }
+        }
+    });
+</script>
+<script>
+    function openResume() {
+        document.getElementById("resumeModal").style.display = "flex";
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeResume() {
+        document.getElementById("resumeModal").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+
+    // Close when clicking outside the resume
+    document.getElementById("resumeModal").addEventListener("click", function(event) {
+        if (event.target === this) {
+            closeResume();
+        }
+    });
+
+    // Close using the Escape key
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeResume();
+        }
+    });
+</script>
+
+    <!-- PROJECTS AND CERTIFICATES SECTION -->
+<section id="projects" class="section projects-section">
+
+    <div class="section-title">
+        <p>MY WORK AND ACHIEVEMENTS</p>
+        <h2>Projects & <span>Certificates</span></h2>
+    </div>
+
+    <div class="projects-container">
+
+        <!-- PROJECT 01: ARDUINO SOUND SENSORY FAN -->
+        <div class="project-card">
+
+            <div class="project-gallery" data-gallery="arduino">
+
+                <button class="gallery-thumb" onclick="openGallery(this)" aria-label="View Arduino image 1">
+                    <img src="{{ url_for('static', filename='images/projects/project1.png') }}" alt="Arduino project image 1">
+                </button>
+
+                <button class="gallery-thumb" onclick="openGallery(this)" aria-label="View Arduino image 2">
+                    <img src="{{ url_for('static', filename='images/projects/project2.png') }}" alt="Arduino project image 2">
+                </button>
+
+                <button class="gallery-thumb" onclick="openGallery(this)" aria-label="View Arduino image 3">
+                    <img src="{{ url_for('static', filename='images/projects/project3.png') }}" alt="Arduino project image 3">
+                </button>
+
+            </div>
+
+            <div class="project-icon">01</div>
+
+            <h3>Arduino Sound Sensory Fan</h3>
+
+            <p>
+                A prototype that uses a sound sensor and
+                Arduino microcontroller to control fan
+                operation and speed through sound commands.
+            </p>
+
+            <span class="project-tag">Arduino Project</span>
+
+        </div>
+
+        <!-- PROJECT 02: Tic-Tac-Toe -->
+        <!-- EXTERNAL WEBSITE PREVIEW -->
+<div class="project-card">
+
+    <div class="website-preview">
+        <a href="https://jhonreyaquino08-ops.github.io/tic-tac-toe/"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <img src="{{ url_for('static', filename='images/projects/tic.png') }}"
+                 alt="Website Preview">
+
+            <div class="preview-overlay">
+                <span>Visit Website ↗</span>
+            </div>
+
+        </a>
+    </div>
+
+    <div class="project-icon">02</div>
+
+    <h3>Tik Tak Toe</h3>
+
+    <p>
+        A fun Tic Tac Toe game that allows you to compete with an AI(bot)
+        or with your friends.
+    </p>
+
+    <span class="project-tag">Web Development</span>
+
+</div>
+
+        <!-- PROJECT 03: CERTIFICATES -->
+        <div class="project-card">
+
+            <div class="project-gallery" data-gallery="certificates">
+
+                <button class="gallery-thumb" onclick="openGallery(this)" aria-label="View certificate image 1">
+                    <img src="{{ url_for('static', filename='images/projects/certificate1.png') }}" alt="Certificate 1">
+                </button>
+
+                <button class="gallery-thumb" onclick="openGallery(this)" aria-label="View certificate image 2">
+                    <img src="{{ url_for('static', filename='images/projects/certificate2.png') }}" alt="Certificate 2">
+                </button>
+
+            </div>
+
+            <div class="project-icon">03</div>
+
+            <h3>Certificates</h3>
+
+            <p>
+                A collection of certificates earned throughout my academic journey.
+            </p>
+
+            <span class="project-tag">Achievements</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- IMAGE GALLERY POPUP -->
+<div id="galleryModal" class="gallery-modal">
+
+    <div class="gallery-modal-content">
+
+        <button class="gallery-close" onclick="closeGallery()"
+                aria-label="Close gallery">&times;</button>
+
+        <button class="gallery-nav gallery-prev"
+                onclick="changeGalleryImage(-1)"
+                aria-label="Previous image">&#10094;</button>
+
+        <img id="galleryMainImage" src="" alt="Selected project image">
+
+        <button class="gallery-nav gallery-next"
+                onclick="changeGalleryImage(1)"
+                aria-label="Next image">&#10095;</button>
+
+        <p id="galleryCounter" class="gallery-counter"></p>
+
+    </div>
+
+</div>
+
+
+<!-- UPDATE AND MAINTENANCE PLAN SECTION -->
+<section id="maintenance" class="maintenance-section">
+
+    <h2>Update & Maintenance Plan</h2>
+    <p class="maintenance-subtitle">
+        Keeping my portfolio updated, organized, and accessible.
+    </p>
+
+    <div class="maintenance-container">
+
+        <!-- CONTENT UPDATES -->
+        <div class="maintenance-card">
+            <div class="maintenance-icon">🔄</div>
+            <h3>Content Updates</h3>
+            <p>
+                Regularly update my portfolio with new projects,
+                certificates, achievements, and skills to showcase
+                my latest progress and experiences.
+            </p>
+        </div>
+
+        <!-- DESIGN AND IMPROVEMENTS -->
+        <div class="maintenance-card">
+            <div class="maintenance-icon">🎨</div>
+            <h3>Design Improvements</h3>
+            <p>
+                Improve the website's layout, appearance, and
+                responsiveness to provide a better browsing
+                experience across different devices.
+            </p>
+        </div>
+
+        <!-- TECHNICAL MAINTENANCE -->
+        <div class="maintenance-card">
+            <div class="maintenance-icon">⚙️</div>
+            <h3>Technical Maintenance</h3>
+            <p>
+                Check website functionality, fix broken links,
+                resolve errors, and ensure that images and
+                interactive features work properly.
+            </p>
+        </div>
+
+        <!-- SECURITY AND BACKUP -->
+        <div class="maintenance-card">
+            <div class="maintenance-icon">🛡️</div>
+            <h3>Security & Backup</h3>
+            <p>
+                Keep project files organized, maintain backup
+                copies, and review website settings to help
+                protect the portfolio and its contents.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="maintenance-schedule">
+        <h3>Maintenance Schedule</h3>
+
+        <div class="schedule-item">
+            <span>Weekly</span>
+            <p>Check website links, images, and functionality.</p>
+        </div>
+
+        <div class="schedule-item">
+            <span>Monthly</span>
+            <p>Review content and update portfolio information.</p>
+        </div>
+
+        <div class="schedule-item">
+            <span>Quarterly</span>
+            <p>Improve website design, review performance, and back up files.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section">
+
+        <div class="section-title">
+            <p>LET'S CONNECT</p>
+            <h2>Contact <span>Me</span></h2>
+        </div>
+
+        <div class="contact-container">
+
+            <div class="contact-card">
+
+                <h3>Get In Touch</h3>
+
+                <p>
+                    Feel free to contact me for questions,
+                    collaborations, or opportunities.
+                </p>
+
+                <div class="contact-info">
+                    <strong>Email:</strong>
+                    <span>jeromefajilan2006@email.com</span>
+                </div>
+
+                <div class="contact-info">
+                    <strong>Location:</strong>
+                    <span> Bacoor City, Cavite, Philippines</span>
+                </div>
+
+                <div class="contact-info">
+                    <strong>Social Media:</strong>
+                    <span> Jerome Fajilan (in all platforms)</span>
+                </div>
+
+                <div class="contact-info">
+                    <strong>Contact number:</strong>
+                    <span>09093400275</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 My Personal Portfolio. Fajilan, Jerome. BSCS 3-2</p>
+    </footer>
+
+</body>
+</html>
